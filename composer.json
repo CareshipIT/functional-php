@@ -1,0 +1,43 @@
+{
+    "name": "careship/functional-php",
+    "description": "Functional framework for PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Careship Team",
+            "email": "it-account@careship.de"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.3"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14",
+        "phpstan/phpstan": "^0.11.5",
+        "phpunit/phpunit": "^8.0.4",
+        "vimeo/psalm": "^3.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Careship\\Functional\\": "src/"
+        },
+        "files": [
+          "src/functions.php",
+          "src/Either/functions.php",
+          "src/Maybe/functions.php",
+          "src/Result/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Careship\\Tests\\Functional\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "phpunit"
+        ]
+    }
+}

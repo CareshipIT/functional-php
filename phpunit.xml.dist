@@ -1,0 +1,12 @@
+<phpunit bootstrap="src/bootstrap.php">
+    <testsuites>
+        <testsuite name="Careship Functional">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
