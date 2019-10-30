@@ -4,7 +4,7 @@ namespace Careship\Functional\Result;
 
 final class ExceptionStack
 {
-    /** @var \Throwable[] * */
+    /** @var \Throwable[] */
     private $stack;
 
     public function __construct(\Throwable ...$exceptions)

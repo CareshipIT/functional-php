@@ -3,6 +3,7 @@
 namespace Careship\Functional;
 
 use Careship\Functional\Maybe\Some;
+use Careship\Functional\Maybe\Maybe;
 use Careship\Functional\Result\Failure;
 use Careship\Functional\Result\Result;
 
