@@ -2,9 +2,7 @@
 
 namespace Careship\Functional;
 
-use Careship\Functional\Maybe\Maybe;
 use Careship\Functional\Maybe\Some;
-use Careship\Functional\Result\ExceptionStack;
 use Careship\Functional\Result\Failure;
 use Careship\Functional\Result\Result;
 
@@ -40,7 +38,6 @@ function get_some_or_fail(Result $result, string $failMessage)
 function success_or_fail(Result $result, string $failMessage)
 {
     if ($result instanceof Failure) {
-        /** @var ExceptionStack $exceptionStack */
         $exceptionStack = $result->extract();
         $exceptionMessage = \sprintf(
             FAIL_MESSAGE_FORMAT,
@@ -51,5 +48,8 @@ function success_or_fail(Result $result, string $failMessage)
         throw new \Exception($exceptionMessage);
     }
 
-    return $result->extract();
+    /** @psalm-var T $value */
+    $value = $result->extract();
+
+    return $value;
 }

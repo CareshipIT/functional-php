@@ -2,6 +2,10 @@
 
 namespace Careship\Functional\Result;
 
+/**
+ * @template T2
+ * @implements Result<T2>
+ */
 class Failure implements Result
 {
     private $exceptionStack;
@@ -11,7 +15,7 @@ class Failure implements Result
         $this->exceptionStack = $exceptionStack;
     }
 
-    public function extract()
+    public function extract(): ExceptionStack
     {
         return $this->exceptionStack;
     }

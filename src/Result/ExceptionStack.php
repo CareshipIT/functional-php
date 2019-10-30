@@ -12,7 +12,7 @@ final class ExceptionStack
         $this->stack = $exceptions;
     }
 
-    public function merge(self $exceptionStack)
+    public function merge(self $exceptionStack): self
     {
         return new self(...\array_merge($this->stack, $exceptionStack->stack));
     }

@@ -21,7 +21,7 @@ final class MultipleReasons implements Reason
     {
         return \array_reduce(
             $this->reasons,
-            function ($reasonsString, Reason $reason) {
+            function (string $reasonsString, Reason $reason) {
                 $reasonsString .= $reason->toString() . PHP_EOL;
 
                 return $reasonsString;

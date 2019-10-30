@@ -41,11 +41,19 @@ function no($reason): Either
     };
 }
 
+/**
+ * @template T
+ * @psalm-param T|null $value
+ */
 function yes($value = null): Either
 {
     return new class($value) implements Yes {
+        /** @psalm-var T|null */
         private $value;
 
+        /**
+         * @psalm-param T|null $value
+         */
         public function __construct($value)
         {
             $this->value = $value;

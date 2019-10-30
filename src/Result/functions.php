@@ -5,6 +5,7 @@ namespace Careship\Functional\Result;
 /**
  * @template T
  * @psalm-param callable(mixed...):T $f
+ * @psalm-param mixed[] $args
  *
  * @return Result<T>
  */
