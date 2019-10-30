@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Careship\Functional\Maybe;
 
-function none(): Maybe
+function none(): None
 {
     return new class() implements None {
         public function ifSome(callable $f): Maybe
@@ -19,7 +19,7 @@ function none(): Maybe
  * @psalm-param T $value
  * @psalm-return Some<T>
  */
-function some($value): Maybe
+function some($value): Some
 {
     return new class($value) implements Some {
         /** @psalm-var T */
