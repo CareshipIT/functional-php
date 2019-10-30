@@ -1,4 +1,4 @@
-<phpunit bootstrap="src/bootstrap.php">
+<phpunit>
     <testsuites>
         <testsuite name="Careship Functional">
             <directory>./tests</directory>
