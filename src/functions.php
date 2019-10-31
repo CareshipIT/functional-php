@@ -18,6 +18,16 @@ function get_some_or_fail(Result $result, string $failMessage)
 {
     $maybe = success_or_fail($result, $failMessage);
 
+    return extract_some_or_fail($maybe, $failMessage);
+}
+
+/**
+ * @template T
+ * @psalm-param Maybe<T> $maybe
+ * @psalm-return T
+ */
+function extract_some_or_fail(Maybe $maybe, string $failMessage)
+{
     if (!$maybe instanceof Some) {
         $exceptionMessage = \sprintf(
             FAIL_MESSAGE_FORMAT,
