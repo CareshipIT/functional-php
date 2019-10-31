@@ -17,14 +17,17 @@ final class MultipleReasons implements Reason
         return $this->reasons;
     }
 
-    public function toString(): string
+    public function toString(?string $prefix = null, int $level = 0): string
     {
-        return \array_reduce(
-            $this->reasons,
-            function (string $reasonsString, Reason $reason) {
-                $reasonsString .= $reason->toString() . PHP_EOL;
+        $prefix = $prefix === null ? '- ' : $prefix;
 
-                return $reasonsString;
-            }, '');
+        $reasonStrings = \array_map(
+            function (Reason $reason) use ($prefix, $level) {
+                return $reason->toString($prefix, $level + 1);
+            },
+            $this->reasons
+        );
+
+        return implode(PHP_EOL, $reasonStrings);
     }
 }

@@ -5,15 +5,25 @@ declare(strict_types=1);
 namespace Careship\Functional\Either;
 
 /**
- * @param array|string $reason
- *
- * @return Either
+ * @psalm-param list<string>|string $reasonStringOrList
  */
-function no($reason): Either
+function convert_to_reason($reasonStringOrList): Reason
 {
-    $reason = \is_string($reason) ?
-        new SingleReason($reason) :
-        new MultipleReasons(...$reason);
+    return \is_string($reasonStringOrList) ?
+        new SingleReason($reasonStringOrList) :
+        new MultipleReasons(...array_map(
+                function($reasonStringItem) {
+                    return convert_to_reason($reasonStringItem);
+                }, $reasonStringOrList)
+        );
+}
+
+/**
+ * @psalm-param list<string>|string $reasonStringOrList
+ */
+function no($reasonStringOrList): No
+{
+    $reason = convert_to_reason($reasonStringOrList);
 
     return new class($reason) implements No {
         /** @var Reason */
@@ -45,7 +55,7 @@ function no($reason): Either
  * @template T
  * @psalm-param T|null $value
  */
-function yes($value = null): Either
+function yes($value = null): Yes
 {
     return new class($value) implements Yes {
         /** @psalm-var T|null */

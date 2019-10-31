@@ -5,15 +5,19 @@ namespace Careship\Functional\Either;
 final class SingleReason implements Reason
 {
     /** @var string */
-    private $reason;
+    private $reasonString;
 
-    public function __construct(string $reason)
+    public function __construct(string $reasonString)
     {
-        $this->reason = $reason;
+        $this->reasonString = $reasonString;
     }
 
-    public function toString(): string
+    public function toString(?string $prefix = null, int $level = 0): string
     {
-        return $this->reason;
+        $prefix = $level === 0 ?
+            strval($prefix) :
+            str_repeat(strval($prefix), $level);
+
+        return $prefix . $this->reasonString;
     }
 }
