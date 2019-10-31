@@ -22,7 +22,7 @@ interface OrderRepository {
     public function load(string $orderId): Maybe;
 }
 
-final class ReadOrderService {
+final class OrderService {
     /** @var OrderRepository */
     private $orderRepository;
 
@@ -37,7 +37,7 @@ final class ReadOrderService {
     }
 }
 
-$orderService = new ReadOrderService();
+$orderService = new OrderService();
 
 $order = get_some_or_fail(
     $orderService->findOrderById('some_order_id'),

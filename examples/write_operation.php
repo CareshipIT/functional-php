@@ -45,7 +45,7 @@ final class OrderService {
     }
 }
 
-$orderService = new ReadOrderService();
+$orderService = new OrderService();
 
 success_or_fail(
     $orderService->setOrderToShipped('some_order_id'),
