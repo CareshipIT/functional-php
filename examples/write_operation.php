@@ -21,6 +21,8 @@ interface Order {
 interface OrderRepository {
     /** @return Maybe<Order> */
     public function load(string $orderId): Maybe;
+
+    public function save(Customer $customer): Maybe;
 }
 
 final class OrderService {
