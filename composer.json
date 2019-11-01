@@ -1,6 +1,6 @@
 {
     "name": "careship/functional-php",
-    "description": "Functional framework for PHP",
+    "description": "A monad-like set of utilities for PHP, type-checked by Psalm.",
     "type": "library",
     "license": "MIT",
     "authors": [
