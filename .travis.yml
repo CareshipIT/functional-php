@@ -11,4 +11,4 @@ matrix:
 before_script:
   - composer install
 script:
-  - composer tests
+  - composer test
