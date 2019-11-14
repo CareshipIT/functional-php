@@ -20,7 +20,7 @@ final class FunctionsTest extends TestCase
     /** @test */
     public function result_returns_failure_on_exception()
     {
-        $result = result(function() { throw \Exception(); });
+        $result = result(function() { throw new \Exception(); });
 
         $this->assertInstanceOf(Failure::class, $result);
     }

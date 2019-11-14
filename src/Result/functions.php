@@ -48,8 +48,12 @@ function handle_result(Result $result, callable $successHandler, callable $error
  * @return T|U
  */
 function extract_or_handle_failure(Result $result, callable $errorHandler) {
-    return handle_success_or_failure(
+    return handle_result(
         $result,
+        /**
+         * @psalm-param T $value
+         * @psalm-return T
+         */
         function ($value) { return $value; },
         $errorHandler
     );
