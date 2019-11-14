@@ -3,8 +3,8 @@
 namespace Careship\Functional\Result;
 
 /**
- * @template T2
- * @implements Result<T2>
+ * @template T
+ * @implements Result<T>
  */
 class Failure implements Result
 {

@@ -3,21 +3,21 @@
 namespace Careship\Functional\Result;
 
 /**
- * @template T2
- * @implements Result<T2>
+ * @template T
+ * @implements Result<T>
  */
 final class Success implements Result
 {
-    /** @psalm-var T2 */
+    /** @psalm-var T */
     private $value;
 
-    /** @psalm-param T2 $value */
+    /** @psalm-param T $value */
     public function __construct($value)
     {
         $this->value = $value;
     }
 
-    /** @psalm-return T2 */
+    /** @psalm-return T */
     public function extract()
     {
         return $this->value;

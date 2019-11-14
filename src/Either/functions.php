@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Careship\Functional\Either;
 
+use Jose\Component\Signature\Algorithm\None;
+
 /**
  * @psalm-param list<string>|string $reasonStringOrList
  */
@@ -84,4 +86,24 @@ function yes($value = null): Yes
             return $this->value;
         }
     };
+}
+
+/**
+ * @template T
+ * @template U
+ * @template W
+ * @psalm-param Either<T> $either
+ * @psalm-param callable(T):U $yesHandler
+ * @psalm-param callable(Reason):W $noHandler
+ * @return U|W
+ */
+function handle_either(Either $either, callable $yesHandler, callable $noHandler) {
+    switch (true) {
+        case $either instanceof Yes:
+            return $yesHandler($either->extract());
+        case $either instanceof No:
+            return $noHandler($either->extract());
+        default:
+            throw new \LogicException(sprintf('Unknown either type %s', get_class($either)));
+    }
 }

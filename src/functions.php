@@ -4,8 +4,11 @@ namespace Careship\Functional;
 
 use Careship\Functional\Maybe\Some;
 use Careship\Functional\Maybe\Maybe;
+use Careship\Functional\Result\ExceptionStack;
 use Careship\Functional\Result\Failure;
 use Careship\Functional\Result\Result;
+use function Careship\Functional\Result\return_or_handle_failure;
+use function Careship\Functional\Result\return_or_recover;
 
 const FAIL_MESSAGE_FORMAT = "What failed: %s\nCaused by: %s";
 
@@ -14,11 +17,11 @@ const FAIL_MESSAGE_FORMAT = "What failed: %s\nCaused by: %s";
  * @psalm-param Result<Maybe<T>> $result
  * @psalm-return T
  */
-function get_some_or_fail(Result $result, string $failMessage)
+function extract_some_or_fail(Result $result, string $failMessage)
 {
-    $maybe = success_or_fail($result, $failMessage);
+    $maybe = extract_or_fail($result, $failMessage);
 
-    return extract_some_or_fail($maybe, $failMessage);
+    return some_or_fail($maybe, $failMessage);
 }
 
 /**
@@ -26,7 +29,7 @@ function get_some_or_fail(Result $result, string $failMessage)
  * @psalm-param Maybe<T> $maybe
  * @psalm-return T
  */
-function extract_some_or_fail(Maybe $maybe, string $failMessage)
+function some_or_fail(Maybe $maybe, string $failMessage)
 {
     if (!$maybe instanceof Some) {
         $exceptionMessage = \sprintf(
@@ -46,21 +49,19 @@ function extract_some_or_fail(Maybe $maybe, string $failMessage)
  * @psalm-param Result<T> $result
  * @psalm-return T
  */
-function success_or_fail(Result $result, string $failMessage)
+function extract_or_fail(Result $result, string $failMessage)
 {
-    if ($result instanceof Failure) {
-        $exceptionStack = $result->extract();
-        $exceptionMessage = \sprintf(
-            FAIL_MESSAGE_FORMAT,
-            $failMessage,
-            $exceptionStack->toString()
-        );
+    return extract_or_handle_failure(
+        $result,
+        function (ExceptionStack $exceptionStack) {
+            $exceptionStack = $result->extract();
+            $exceptionMessage = \sprintf(
+                FAIL_MESSAGE_FORMAT,
+                $failMessage,
+                $exceptionStack->toString()
+            );
 
-        throw new \Exception($exceptionMessage);
-    }
-
-    /** @psalm-var T $value */
-    $value = $result->extract();
-
-    return $value;
+            throw new \Exception($exceptionMessage);
+        }
+    );
 }
