@@ -25,7 +25,7 @@ function result(callable $f, ...$args): Result
  * @template U
  * @template W
  * @psalm-param Result<T> $result
- * @psalm-param callable(T):U $then
+ * @psalm-param callable(T):U $successHandler
  * @psalm-param callable(ExceptionStack):W $errorHandler
  * @return U|W
  */
