@@ -7,7 +7,7 @@ namespace Careship\Functional\Result;
  * @psalm-param callable(mixed...):T $f
  * @psalm-param mixed[] $args
  *
- * @return Result<T>
+ * @psalm-return Result<T>
  */
 function result(callable $f, ...$args): Result
 {
@@ -27,7 +27,7 @@ function result(callable $f, ...$args): Result
  * @psalm-param Result<T> $result
  * @psalm-param callable(T):U $successHandler
  * @psalm-param callable(ExceptionStack):W $errorHandler
- * @return U|W
+ * @psalm-return U|W
  */
 function handle_result(Result $result, callable $successHandler, callable $errorHandler) {
     switch (true) {
@@ -45,7 +45,7 @@ function handle_result(Result $result, callable $successHandler, callable $error
  * @template U
  * @psalm-param Result<T> $result
  * @psalm-param callable(ExceptionStack):U $errorHandler
- * @return T|U
+ * @psalm-return T|U
  */
 function extract_or_handle_failure(Result $result, callable $errorHandler) {
     return handle_result(
