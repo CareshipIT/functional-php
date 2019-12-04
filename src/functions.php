@@ -62,3 +62,12 @@ function extract_or_fail(Result $result, string $failMessage)
         }
     );
 }
+
+/**
+ * @template T
+ * @psalm-param Result<T> $result
+ */
+function success_or_fail(Result $result, string $failMessage)
+{
+    extract_or_fail($result, $failMessage);
+}
