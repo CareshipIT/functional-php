@@ -4,7 +4,9 @@ namespace Careship\Tests\Functional\Maybe;
 
 use Careship\Functional\Maybe\None;
 use Careship\Functional\Maybe\Some;
+use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
 use PHPUnit\Framework\TestCase;
+use function Careship\Functional\Maybe\handle_maybe;
 use function Careship\Functional\Maybe\none;
 use function Careship\Functional\Maybe\some;
 
@@ -58,5 +60,37 @@ final class FunctionsTest extends TestCase
         $none->ifSome(function() use ($spy) {
             $spy->myMethod();
         });
+    }
+
+    /** @test */
+    public function some_handler_is_invoked_in_handle_maybe()
+    {
+        $someSpy = $this->getMockBuilder(\stdClass::class)->addMethods(['spy'])->getMock();
+        $someSpy->expects($this->exactly(1))->method('spy');
+
+        $noneSpy = $this->getMockBuilder(\stdClass::class)->addMethods(['spy'])->getMock();
+        $noneSpy->expects($this->never())->method('spy');
+
+        handle_maybe(
+            some('foo'),
+            [$someSpy, 'spy'],
+            [$noneSpy, 'spy']
+        );
+    }
+
+    /** @test */
+    public function none_handler_is_invoked_in_handle_maybe()
+    {
+        $someSpy = $this->getMockBuilder(\stdClass::class)->addMethods(['spy'])->getMock();
+        $someSpy->expects($this->never())->method('spy');
+
+        $noneSpy = $this->getMockBuilder(\stdClass::class)->addMethods(['spy'])->getMock();
+        $noneSpy->expects($this->exactly(1))->method('spy');
+
+        handle_maybe(
+            none(),
+            [$someSpy, 'spy'],
+            [$noneSpy, 'spy']
+        );
     }
 }

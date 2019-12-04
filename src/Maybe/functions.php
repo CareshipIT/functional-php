@@ -42,3 +42,23 @@ function some($value): Some
         }
     };
 }
+
+/**
+ * @template T
+ * @template U
+ * @template W
+ * @psalm-param Maybe<T> $maybe
+ * @psalm-param callable(T):U $someHandler
+ * @psalm-param callable():W $noneHandler
+ * @psalm-return U|W
+ */
+function handle_maybe(Maybe $maybe, callable $someHandler, callable $noneHandler) {
+    switch (true) {
+        case $maybe instanceof Some:
+            return $someHandler($maybe->extract());
+        case $maybe instanceof None:
+            return $noneHandler();
+        default:
+            throw new \LogicException(sprintf('Unknown maybe type %s', get_class($maybe)));
+    }
+}
