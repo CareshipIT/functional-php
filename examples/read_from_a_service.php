@@ -4,14 +4,16 @@
  * This example combines Result and Maybe to cover all potential cases during a read operation.
  * Different things could go wrong here (e.g. db connection could not be successful).
  * This is why we wrap OrderService::findOrderById in a result(), in order to catch any exception.
- * The returned value is a Result<Maybe<Order>> object, which we can easily unwrap into an Order object using get_some_or_fail().
+ * The returned value is a Result<Maybe<Order>> object, which we can easily unwrap into an Order object using extract_some_or_fail().
  * In case we couldn't find any Order by that orderId (i.e. the Maybe is a None) the function would throw an exception.
  */
 
 use Careship\Functional\Maybe\Maybe;
 use Careship\Functional\Result\Result;
-use function Careship\Functional\get_some_or_fail;
+use function Careship\Functional\extract_some_or_fail;
 use function Careship\Functional\Result\result;
+
+interface Address {}
 
 interface Order {
     function getCustomerAddress(): Address;
@@ -39,7 +41,7 @@ final class OrderService {
 
 $orderService = new OrderService();
 
-$order = get_some_or_fail(
+$order = extract_some_or_fail(
     $orderService->findOrderById('some_order_id'),
     'Cannot find order'
 );

@@ -7,16 +7,16 @@
  */
 
 use Careship\Functional\Either\Either;
-use Careship\Functional\Either\No;
 use Careship\Functional\Either\Reason;
-use Careship\Functional\Either\Yes;
 use Careship\Functional\Maybe\Maybe;
+use Careship\Functional\Result\ExceptionStack;
 use Careship\Functional\Result\Result;
+use function Careship\Functional\Either\handle_either;
 use function Careship\Functional\Either\no;
 use function Careship\Functional\Either\yes;
 use function Careship\Functional\extract_some_or_fail;
+use function Careship\Functional\Result\handle_result;
 use function Careship\Functional\Result\result;
-use function Careship\Functional\success_or_fail;
 
 final class Customer {
     /** @var bool */
@@ -68,18 +68,20 @@ final class CustomerService {
 
 $customerService = new CustomerService();
 
-/** @var Either $wasCustomerVerified */
-$wasCustomerVerified = success_or_fail(
+return handle_result(
     $customerService->verifyEmail('some_customer_id'),
-    'Cannot verify customer email'
+    function (Either $wasCustomerVerified) {
+        return handle_either(
+            $wasCustomerVerified,
+            function() {
+                return 'Customer successfully verified';
+            },
+            function (Reason $reason) {
+                return $reason->toString();
+            }
+        );
+    },
+    function (ExceptionStack $exceptionStack) {
+        $exceptionStack->toString();
+    }
 );
-
-switch (true) {
-    case $wasCustomerVerified instanceof Yes:
-        echo 'customer successfully verified';
-        break;
-    case $wasCustomerVerified instanceof No:
-        /** @var Reason $reason */
-        $reason = $wasCustomerVerified->extract();
-        echo $reason->toString();
-}

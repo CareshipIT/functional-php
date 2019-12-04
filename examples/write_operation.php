@@ -10,8 +10,8 @@
 
 use Careship\Functional\Maybe\Maybe;
 use Careship\Functional\Result\Result;
-use function Careship\Functional\extract_some_or_fail;
 use function Careship\Functional\Result\result;
+use function Careship\Functional\some_or_fail;
 use function Careship\Functional\success_or_fail;
 
 interface Order {
@@ -35,7 +35,7 @@ final class OrderService {
     public function setOrderToShipped(string $orderId): Result
     {
         return result(function() use ($orderId) {
-            $order = extract_some_or_fail(
+            $order = some_or_fail(
                 $this->orderRepository->load($orderId),
                 'Cannot set order to shipped'
             );
